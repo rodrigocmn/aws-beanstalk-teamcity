@@ -7,7 +7,6 @@ data "template_file" "docker" {
     docker_image          = var.docker_image
     docker_host_port      = var.docker_host_port
     docker_container_port = var.docker_container_port
-    application_name      = var.application_name
   }
 }
 

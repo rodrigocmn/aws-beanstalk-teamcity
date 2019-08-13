@@ -2,12 +2,12 @@
   "AWSEBDockerrunVersion": "1",
   "Ports": [
     {
-    "ContainerPort": "8111",
-    "HostPort": "80"
+    "ContainerPort": "${docker_container_port}",
+    "HostPort": "${docker_host_port}"
     }
   ],
   "Image": {
-    "Name": "jetbrains/teamcity-server",
+    "Name": "${docker_image}:${docker_tag}",
     "Update": "true"
   }
 }

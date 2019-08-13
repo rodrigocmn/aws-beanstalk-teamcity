@@ -44,7 +44,7 @@ This terraform code creates a AWS Elastic Beanstalk application and deploys [Tea
 
 Just refer to this repository as a module. For example:
 
-```hcl-terraform
+```terraform
 module "teamcity-beanstalk" {
   source = "https://github.com/rodrigocmn/aws-beanstalk-teamcity.git"
   
@@ -60,7 +60,7 @@ module "teamcity-beanstalk" {
 
 Clone this repository
 
-```bash
+```git
 git clone https://github.com/rodrigocmn/aws-beanstalk-teamcity.git
 ```
 

@@ -65,7 +65,8 @@ fabric.properties
 # Local .terraform directories
 .terraform/*
 
-terraform/*.zip
+# Deployment package
+*.zip
 
 # .tfstate files
 *.tfstate
