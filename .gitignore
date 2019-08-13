@@ -63,7 +63,7 @@ fabric.properties
 
 ### Terraform
 # Local .terraform directories
-**/.terraform/*
+.terraform/*
 
 terraform/*.zip
 

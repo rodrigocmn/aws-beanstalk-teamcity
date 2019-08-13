@@ -1,12 +1,12 @@
 
 module "iam" {
-  source = "./iam"
+  source = "iam"
 
   application_name = var.application_name
 }
 
 module "beanstalk" {
-  source = "./beanstalk"
+  source = "beanstalk"
 
   application_description = var.application_description
   application_environment = var.application_environment

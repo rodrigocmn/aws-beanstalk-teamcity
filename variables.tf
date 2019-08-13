@@ -2,13 +2,13 @@
 variable "vnet_id" {
   description = "target VPC to deploy Elastic Beanstalk App"
   type        = "string"
-  default     = "vpc-65817700"
+//  default     = "vpc-65817700"
 }
 
 variable "subnets" {
   description = "target VPC to deploy Elastic Beanstalk App"
   type        = "list"
-  default     = ["subnet-a473a4c1"]
+//  default     = ["subnet-a473a4c1"]
 }
 
 variable "application_name" {
@@ -26,19 +26,19 @@ variable "application_description" {
 variable "application_environment" {
   description = "Deployment stage e.g. 'dev', 'test', 'prod'"
   type        = "string"
-  default     = "dev"
+//  default     = "dev"
 }
 
 variable "application_version" {
   description = "Version number for the application"
   type        = "string"
-  default     = "0.1"
+//  default     = "0.1"
 }
 
 variable "solution_stack_name" {
   description = "Solution stacks can be listed using the following aws cli command: aws elasticbeanstalk list-available-solution-stacks"
   type        = "string"
-  default     = "64bit Amazon Linux 2018.03 v2.12.16 running Docker 18.06.1-ce"
+//  default     = "64bit Amazon Linux 2018.03 v2.12.16 running Docker 18.06.1-ce"
 }
 
 # Docker variables
