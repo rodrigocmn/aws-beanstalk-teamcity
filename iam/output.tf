@@ -1,5 +1,5 @@
 output "instance_profile" {
-  value = aws_iam_instance_profile.ec2.name
+  value = aws_iam_instance_profile.instance.name
 }
 
 output "service_role" {

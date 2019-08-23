@@ -17,6 +17,7 @@ variable "application_environment" {}
 
 # Launch configuration
 variable "instance_type" {}
+variable "key_name" {}
 variable "autoscaling_maxsize" {}
 variable "health_check" {}
 
@@ -24,3 +25,9 @@ variable "instance_profile" {}
 variable "service_role" {}
 
 variable "solution_stack_name" {}
+
+# DB config
+variable "db_address" {}
+variable "db_port" {}
+variable "db_username" {}
+variable "db_password" {}

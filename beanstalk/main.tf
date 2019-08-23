@@ -7,6 +7,11 @@ data "template_file" "docker" {
     docker_image          = var.docker_image
     docker_host_port      = var.docker_host_port
     docker_container_port = var.docker_container_port
+    db_address            = var.db_address
+    db_name               = "${var.application_name}db"
+    db_port               = var.db_port
+    db_username           = var.db_username
+    db_password           = var.db_password
   }
 }
 
@@ -65,15 +70,29 @@ resource "aws_elastic_beanstalk_environment" "default" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
-    value     = "${var.vnet_id}"
+    value     = var.vnet_id
   }
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = "${join(",", var.subnets)}"
+    value     = join(",", var.subnets)
   }
 
+  setting {
+    namespace = "aws:ec2:vpc"
+    name = "AssociatePublicIpAddress"
+    value = "true"
+  }
+
+
   # Instance
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "EnvironmentType"
+
+    value = "SingleInstance"
+  }
+
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "InstanceType"
@@ -82,11 +101,25 @@ resource "aws_elastic_beanstalk_environment" "default" {
   }
 
   setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "EC2KeyName"
+
+    value = var.key_name
+  }
+
+  setting {
     namespace = "aws:autoscaling:asg"
     name      = "MaxSize"
 
     value = var.autoscaling_maxsize
   }
+
+//  Use this setting for custom or older AMIs
+//  setting {
+//    namespace = "aws:autoscaling:launchconfiguration"
+//    name = "ImageId"
+//    value = "ami-08777ea4f42d1a462"
+//  }
 
   # Security
   setting {
@@ -101,66 +134,68 @@ resource "aws_elastic_beanstalk_environment" "default" {
     value     = var.service_role
   }
 
-//  setting {
-//    namespace = "aws:elasticbeanstalk:application"
-//    name      = "Application Healthcheck URL"
-//    value     = var.health_check
-//  }
-//
-//  setting {
-//    namespace = "aws:elasticbeanstalk:healthreporting:system"
-//    name      = "SystemType"
-//    value     = "enhanced"
-//  }
+
+
+  //  setting {
+  //    namespace = "aws:elasticbeanstalk:application"
+  //    name      = "Application Healthcheck URL"
+  //    value     = var.health_check
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:elasticbeanstalk:healthreporting:system"
+  //    name      = "SystemType"
+  //    value     = "enhanced"
+  //  }
 
   # Rolling updates and deployments
-//  setting {
-//    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-//    name      = "RollingUpdateEnabled"
-//    value     = "true"
-//  }
-//
-//  setting {
-//    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-//    name      = "RollingUpdateType"
-//    value     = "Health"
-//  }
-//
-//  setting {
-//    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-//    name      = "MinInstancesInService"
-//    value     = "1"
-//  }
-//
-//  setting {
-//    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-//    name      = "MaxBatchSize"
-//    value     = "1"
-//  }
-//
-//  setting {
-//    namespace = "aws:elasticbeanstalk:command"
-//    name      = "BatchSizeType"
-//    value     = "Fixed"
-//  }
-//
-//  setting {
-//    namespace = "aws:elasticbeanstalk:command"
-//    name      = "BatchSize"
-//    value     = "1"
-//  }
-//
-//  setting {
-//    namespace = "aws:elasticbeanstalk:command"
-//    name      = "DeploymentPolicy"
-//    value     = "Rolling"
-//  }
-//
-//  setting {
-//    namespace = "aws:elb:policies"
-//    name      = "ConnectionDrainingEnabled"
-//    value     = "true"
-//  }
+  //  setting {
+  //    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+  //    name      = "RollingUpdateEnabled"
+  //    value     = "true"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+  //    name      = "RollingUpdateType"
+  //    value     = "Health"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+  //    name      = "MinInstancesInService"
+  //    value     = "1"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+  //    name      = "MaxBatchSize"
+  //    value     = "1"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:elasticbeanstalk:command"
+  //    name      = "BatchSizeType"
+  //    value     = "Fixed"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:elasticbeanstalk:command"
+  //    name      = "BatchSize"
+  //    value     = "1"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:elasticbeanstalk:command"
+  //    name      = "DeploymentPolicy"
+  //    value     = "Rolling"
+  //  }
+  //
+  //  setting {
+  //    namespace = "aws:elb:policies"
+  //    name      = "ConnectionDrainingEnabled"
+  //    value     = "true"
+  //  }
 
   // TODO - We're not currently using ELB (commented for future use)
   //
